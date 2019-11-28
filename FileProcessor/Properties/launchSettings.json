@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FileProcessor": {
+      "commandName": "Project",
+      "commandLineArgs": "-c ..\\..\\..\\TestingData\\Objednavky.xml"
+    }
+  }
+}

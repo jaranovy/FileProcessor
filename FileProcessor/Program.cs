@@ -6,22 +6,56 @@ namespace FileProcessor
 {
     class Program
     {
+        /* Main function */
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string configFilePath;
 
-            
-            using (var context = new FileProcessorDbContext())
+            parseArguments(args, out configFilePath);
+
+            var fp = new FileProcessor(configFilePath);
+
+        }
+
+        /* Parse program arguments */
+        static void parseArguments(string[] args, out string configFilePath)
+        {
+            configFilePath = "";
+
+            for (int i = 0; i < args.Length; i++)
             {
-                Console.WriteLine("Goods with more than 10 availible items:");
-
-                var goods = context.Zbozi.Where(item => item.pocet_kusu_skladem > 10);
-
-                foreach(Zbozi item in goods)
+                switch (args[i])
                 {
-                    Console.WriteLine($"   {item.ID} : {item.nazev} : {item.pocet_kusu_skladem}");
+                    case "-c":
+                        if (args.Length > i)
+                        {
+                            configFilePath = args[i + 1];
+                            // Console.WriteLine($"Used data file [{dataFilepath}]");
+                            i += 1;
+                        }
+                        else
+                        {
+                            ShowHelp($"Parameter [-c] without value");
+                        }
+                        break;
+                    default:
+                        ShowHelp($"Undefined parameter [{args[i]}]");
+                        break;
                 }
             }
+
+            if (configFilePath.Length == 0)
+            {
+                ShowHelp($"Task configuration file not defined");
+            }
+        }
+
+        /* Show application help */
+        static void ShowHelp(string msg)
+        {
+            Console.WriteLine("Usage: FileProcessor.exe -c <xml task config file path>");
+            Console.WriteLine($"Error: {msg}");
+            Environment.Exit(1);
         }
     }
 }

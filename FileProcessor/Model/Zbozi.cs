@@ -10,5 +10,7 @@ namespace FileProcessor.Model
         public string nazev { get; set; }
 
         public int pocet_kusu_skladem { get; set; }
+
+        public int pocet_objednanych_kusu { get; set; }
     }
 }
