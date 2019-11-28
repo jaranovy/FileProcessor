@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FileProcessorConfig xmlns="http://novych.cz/schemas/Schemas/FileProcessorConfig"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://novych.cz/schemas/Schemas/FileProcessorConfig FileProcessorConfig.xsd">
+  <Task>
+    <Files>
+      <File>..\..\..\TestingData\Objednavky.csv</File>
+    </Files>
+    <Actions>
+      <Action>
+        <Type>Archive</Type>
+        <Destination>.\TestingData\Backup\</Destination>
+      </Action>
+      <Action>
+        <Type>ProcessRecord</Type>
+        <Query>UPDATE [Dbo].[Zbozi] SET [pocet_objednanych_kusu] = pocet_objednavanych_kusu WHERE [ID] = ID_zbozi</Query>
+      </Action>
+      <Action>
+        <Type>Export</Type>
+        <Query>SELECT [ID], [nazev], ([pocet_kusu_skladem] - [pocet_objednanych_kusu]) as [pocet_expedovanych_kusu] from [Dbo].[Zbozi] ORDER BY [ID];</Query>
+        <Destination>.\TestingData\Vyrizeno.csv</Destination>
+      </Action>
+    </Actions>
+  </Task>
+</FileProcessorConfig>
